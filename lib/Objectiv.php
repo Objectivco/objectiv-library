@@ -2,7 +2,6 @@
 
 namespace Objectiv;
 
-use Objectiv\Admin as Admin;
 use Objectiv\Settings as Settings;
 
 /**
@@ -27,7 +26,6 @@ class Objectiv {
     }
 
     public static function init() {
-        new Admin();
         new Settings();
     }
 }

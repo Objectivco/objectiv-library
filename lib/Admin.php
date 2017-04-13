@@ -10,10 +10,12 @@
 
 namespace Objectiv;
 
+use Objectiv\Settings as Settings;
+
 class Admin {
 
     public function __construct() {
-        add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+        
     }
 
     /**
@@ -39,7 +41,6 @@ class Admin {
      * @since 1.0
      */
     public function admin() {
-        $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'general';
         ?>
         <div class="obj-masthead">
             <div class="obj-masthead__container">
