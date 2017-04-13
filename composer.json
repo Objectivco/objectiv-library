@@ -1,0 +1,19 @@
+{
+    "name": "objective",
+    "description": "Objectiv library for WordPress",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Wes Cole",
+            "email": "wes@objectiv.co"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Objectiv\\": "lib/"
+        }
+    },
+    "require": {
+        "objectivco/wordpress-simple-settings": "^0.3.0"
+    }
+}
