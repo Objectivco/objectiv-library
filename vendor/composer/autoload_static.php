@@ -20,16 +20,11 @@ class ComposerStaticInit7723de26a7f289a832ffdaed7d9aa252
         ),
     );
 
-    public static $classMap = array (
-        'WordPress_SimpleSettings' => __DIR__ . '/..' . '/objectivco/wordpress-simple-settings/src/wordpress-simple-settings.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit7723de26a7f289a832ffdaed7d9aa252::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit7723de26a7f289a832ffdaed7d9aa252::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7723de26a7f289a832ffdaed7d9aa252::$classMap;
 
         }, null, ClassLoader::class);
     }

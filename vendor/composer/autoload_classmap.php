@@ -6,5 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'WordPress_SimpleSettings' => $vendorDir . '/objectivco/wordpress-simple-settings/src/wordpress-simple-settings.php',
 );
