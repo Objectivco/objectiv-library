@@ -26,6 +26,6 @@ class Objectiv {
     }
 
     public static function init() {
-        new Settings();
+        
     }
 }
