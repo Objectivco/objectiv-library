@@ -109,7 +109,7 @@ class Settings {
      */
     public function register() {
         add_action( 'admin_menu', array( $this, 'add_pages' ) );
-        // add_action( 'admin_init', array( $this, 'init_settings' ) );
+        add_action( 'admin_init', array( $this, 'init_settings' ) );
     }
 
     /**
@@ -119,6 +119,15 @@ class Settings {
      */
     public function add_pages() {
         $this->iterate( static::CONFIG_KEY_PAGES );
+    }
+
+    /**
+     * Create all of the settings
+     * 
+     * @since 1.0
+     */
+    public function init_settings() {
+        $this->iterate( static::CONFIG_KEY_SETTINGS );
     }
 
     /**
@@ -141,7 +150,6 @@ class Settings {
      * 
      * @param array $data Arguments for page creation
      * @param string $name Current page name
-     * @throws InvalidArgumentException 
      * 
      * @since 1.0
      */
@@ -165,6 +173,83 @@ class Settings {
 
         $page_hook = $this->invoke_function( $function, $data );
         $this->page_hooks[] = $page_hook;
+    }
+
+    /**
+     * Add settings entry
+     * 
+     * @param array $data arguments for register_setting
+     * @param string $name
+     * 
+     * @since 1.0
+     */
+    protected function add_settings_entry( $data, $name ) {
+        $option_group = isset( $data['option_group'] ) ? $data['option_group'] : $name;
+
+        register_setting(
+            $option_group,
+            $name,
+            isset( $data['sanitize_callback'] ) ? $data['sanitize_callback'] : null
+        );
+
+        $args['setting_name'] = $name;
+        $args['page'] = $option_group;
+
+        array_walk( $data['sections'], array( $this, 'add_section' ), $args );
+    }
+
+    /**
+     * Add settings section
+     * 
+     * @param array $data Arguments for the add_settings_section
+     * @param string $name
+     * @param string $args Additional arguments
+     * 
+     * @since 1.0
+     */
+    protected function add_section( $data, $name, $args ) {
+        $render_callback = function() use ( $data ) {
+            $this->render_view( $data['view'] );
+        };
+
+        add_settings_section(
+            $name,
+            $data['title'],
+            $render_callback,
+            $args['page']
+        );
+
+        $args['section'] = $name;
+        array_walk( $data['fields'], array( $this, 'add_field' ), $args );
+    }
+
+    /**
+     * Add field
+     * 
+     * @param array $data Arguments for add_settings_field
+     * @param string $name,
+     * @param array $args
+     * 
+     * @since 1.0
+     */
+    protected function add_field( $data, $name, $args ) {
+        $render_callback = function() use ( $data, $name, $args ) {
+            $options = get_option( $args['setting_name'] );
+
+            if ( ! isset( $options[$name] ) ) {
+                $options[$name] = isset( $data['default'] ) ? $data['default'] : '';
+            }
+
+            $this->render_view( $data['view'], array( 'options' => $options ) );
+        };
+
+        add_settings_field(
+            $name,
+            $data['title'],
+            $render_callback,
+            $args['page'],
+            $args['section']
+        );
     }
 
     /**
