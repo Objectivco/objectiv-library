@@ -71,7 +71,7 @@ class Taxonomy {
             $this->args = array_replace_recursive( $this->args, $args );
         }
 
-        var_dump($this->args);
+        $this->init();
     }
 
     /**
