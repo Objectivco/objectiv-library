@@ -50,8 +50,8 @@ class PostType {
     public $labels;
 
     public function __construct( $name, $args = null ) {
-        $this->name = $name;
-        $this->plural = Inflector::pluralize( $name );
+        $this->name = ucfirst( $name );
+        $this->plural = Inflector::pluralize( ucfirst( $name ) );
         $this->slug = Inflector::slug( $name, '_' );
         $this->labels = $this->build_labels();
         $this->args = $this->build_args();
@@ -78,7 +78,7 @@ class PostType {
      * @since 1.0
      */
     public function register_posttype() {
-        register_post_type( $this->name, $this->args );
+        register_post_type( $this->slug, $this->args );
     }
 
     /**
