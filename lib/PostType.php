@@ -51,8 +51,8 @@ class PostType {
 
     public function __construct( $name, $args = null ) {
         $this->name = $name;
-        $this->plural = $this->pluralize( $this->name );
-        $this->slug = $this->slugify( $this->name );
+        $this->plural = Inflector::pluralize( $name );
+        $this->slug = Inflector::slug( $name, '_' );
         $this->labels = $this->build_labels();
         $this->args = $this->build_args();
 
@@ -79,24 +79,6 @@ class PostType {
      */
     public function register_posttype() {
         register_post_type( $this->name, $this->args );
-    }
-
-    /**
-     * Create slug
-     * 
-     * @since 1.0
-     */
-    public function slugify( $name ) {
-        return str_replace( ' ', '-', strtolower( $name ) );
-    }
-
-    /**
-     * Pluralize the name
-     * 
-     * @since 1.0
-     */
-    public function pluralize( $name ) {
-        return Inflector::pluralize( $name );
     }
 
     /**
